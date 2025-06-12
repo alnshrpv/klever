@@ -1,0 +1,43 @@
+/* Общий режим для слабовидящих */
+.accessible-mode {
+  font-size: 22px !important;
+  line-height: 1.6 !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Режим слабовидящих в тёмной теме */
+.theme-myCustomDarkTheme.accessible-mode {
+  background-color: #000 !important;
+  color: #2E7D32 !important;
+}
+
+.theme-myCustomDarkTheme.accessible-mode a {
+  color: #2E7D32 !important;
+  text-decoration: none !important;
+}
+
+.theme-myCustomDarkTheme.accessible-mode button,
+.theme-myCustomDarkTheme.accessible-mode .v-btn {
+  border-color: #A5D6A7 !important;
+}
+
+/* Режим слабовидящих в светлой теме */
+.theme-myCustomLightTheme.accessible-mode {
+  background-color: #fff9c4 !important; 
+  color: #2E7D32 !important;
+}
+
+.theme-myCustomLightTheme.accessible-mode a {
+  color: #2E7D32 !important;
+  text-decoration: none !important;
+}
+
+.theme-myCustomLightTheme.accessible-mode button,
+.theme-myCustomLightTheme.accessible-mode .v-btn {
+  border-color: #2E7D32 !important;
+}
+
+a {
+    text-decoration: none;
+}
+
