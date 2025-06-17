@@ -24,7 +24,7 @@ const orders = ref([])
 onMounted(async () => {
   try {
     const token = localStorage.getItem('token')
-    const res = await axios.get('https://klever.onrender.com/api/auth/me', {
+    const res = await axios.get('localhost:5000/api/auth/me', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -34,7 +34,7 @@ onMounted(async () => {
 
     const userId = res.data._id 
 
-const ordersRes = await axios.get(`https://klever.onrender.com/api/orders/user/${userId}`, {
+const ordersRes = await axios.get(`localhost:5000/api/orders/user/${userId}`, {
   headers: {
     Authorization: `Bearer ${token}`,
   },
