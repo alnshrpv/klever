@@ -63,7 +63,7 @@ const sendMessage = async () => {
       return
     }
 
-  await axios.post('http://localhost:5000/api/orders', {
+  await axios.post('https://klever.onrender.com/api/orders', {
   type: 'Обратная связь',
   message: message.value,
   name: name.value,
