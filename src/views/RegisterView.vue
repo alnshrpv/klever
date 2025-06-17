@@ -28,7 +28,7 @@ const error = ref('')
 
 const register = async () => {
 try {
-    const res = await axios.post('/api/auth/register', {
+    const res = await axios.post('https://klever.onrender.com/api/auth/register', {
       name: name.value,
       email: email.value,
       password: password.value,
