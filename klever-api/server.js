@@ -2,49 +2,64 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const authRoutes = require('./routes/auth');
+const path = require('path');
 
 const app = express();
 
+// Безопасный список источников
 const allowedOrigins = [
   'http://localhost:5173',
-  'http://localhost:8080',
-  'https://klever.onrender.com' 
+  'http://127.0.0.1:5173',
+  'https://klever.onrender.com'
 ];
 
-
+// Упрощённая CORS политика для разработки
 app.use(cors({
-  origin: function (origin, callback) {
-    // Разрешаем запросы без origin (например, из мобильных приложений или Postman)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.includes(origin) || origin.includes('localhost')) {
-      return callback(null, true);
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
     }
-    
-    return callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  optionsSuccessStatus: 200
 }));
 
-// Явная обработка OPTIONS запросов
-app.options('*', cors());
-
+// Парсинг JSON
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Роуты
+// Проверка маршрутов
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'OK' });
+});
+
+// Подключение маршрутов (убедитесь в правильности экспорта)
+const authRoutes = require('./routes/auth');
+const ordersRoutes = require('./routes/orders');
+
+// Явное определение базовых путей
 app.use('/api/auth', authRoutes);
-const ordersRoutes = require('./routes/orders')
-app.use('/api/orders', ordersRoutes)
+app.use('/api/orders', ordersRoutes);
 
+// Обработка ошибок
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+// Подключение к MongoDB
 const start = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000
     });
+    
+    console.log('Connected to MongoDB');
+
 
     app.listen(5000, () => console.log('Server running on port 5000'));
   } catch (e) {
