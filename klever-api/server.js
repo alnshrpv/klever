@@ -9,7 +9,7 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:8080',
-  'https://harmonious-entremet-f07fed.netlify.app' 
+  'https://klever.onrender.com/' 
 ];
 
 
